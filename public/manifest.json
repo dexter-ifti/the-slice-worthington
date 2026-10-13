@@ -3,8 +3,8 @@
   "short_name": "The Slice",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#02c5fb",
-  "theme_color": "#02c5fb",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "description": "Book a simulator bay at The Slice in Worthington, Ohio.",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
