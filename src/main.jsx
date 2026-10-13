@@ -17,6 +17,8 @@ function MapPinIcon() {
 function App() {
   const [offline, setOffline] = useState(!navigator.onLine);
   const [showInstallTip, setShowInstallTip] = useState(false);
+  const [deferredInstallPrompt, setDeferredInstallPrompt] = useState(null);
+  const [isIosSafari, setIsIosSafari] = useState(false);
 
   useEffect(() => {
     const setConnection = () => setOffline(!navigator.onLine);
@@ -26,11 +28,21 @@ function App() {
     const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
     const dismissed = window.localStorage.getItem('slice-install-tip-dismissed');
     const isIPhoneSafari = /iPhone|iPad|iPod/i.test(navigator.userAgent) && /Safari/i.test(navigator.userAgent) && !/CriOS|FxiOS/i.test(navigator.userAgent);
-    if (isIPhoneSafari && !standalone && !dismissed) setShowInstallTip(true);
+    setIsIosSafari(isIPhoneSafari);
+
+    const handleInstallPrompt = (event) => {
+      event.preventDefault();
+      setDeferredInstallPrompt(event);
+      if (!standalone && !dismissed) setShowInstallTip(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleInstallPrompt);
+    if (!standalone && !dismissed) setShowInstallTip(true);
 
     return () => {
       window.removeEventListener('online', setConnection);
       window.removeEventListener('offline', setConnection);
+      window.removeEventListener('beforeinstallprompt', handleInstallPrompt);
     };
   }, []);
 
@@ -44,6 +56,17 @@ function App() {
   const dismissInstallTip = () => {
     window.localStorage.setItem('slice-install-tip-dismissed', 'true');
     setShowInstallTip(false);
+  };
+
+  const installApp = async () => {
+    if (!deferredInstallPrompt) {
+      dismissInstallTip();
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    setDeferredInstallPrompt(null);
+    dismissInstallTip();
   };
 
   return (
@@ -100,10 +123,13 @@ function App() {
       {showInstallTip && (
         <aside className="install-tip" aria-label="Add The Slice to your Home Screen">
           <div className="install-tip-copy">
-            <strong>Keep The Slice close</strong>
-            <span>Tap <b>Share</b>, then <b>Add to Home Screen</b>.</span>
+            <strong>Take The Slice with you</strong>
+            <span>{deferredInstallPrompt ? 'Install the app for one-tap booking.' : isIosSafari ? <>Tap <b>Share</b>, then <b>Add to Home Screen</b>.</> : 'Use your browser’s install option to add the app.'}</span>
           </div>
-          <button type="button" onClick={dismissInstallTip} aria-label="Dismiss install instructions">×</button>
+          <div className="install-tip-actions">
+            <button className="install-action" type="button" onClick={installApp}>{deferredInstallPrompt ? 'Install' : 'Got it'}</button>
+            <button className="install-dismiss" type="button" onClick={dismissInstallTip} aria-label="Dismiss install instructions">×</button>
+          </div>
         </aside>
       )}
     </div>
