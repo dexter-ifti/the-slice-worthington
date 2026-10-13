@@ -24,9 +24,8 @@ The visual system was extracted from the live site CSS at [thesliceworthington.c
 - Supporting/compact type: Inter Tight
 - Logo: `public/assets/the-slice-logo.svg`, supplied from the live site CDN
 - Hero image: `public/assets/the-slice-hero.jpg`, the live site’s mobile hero poster
-- PWA icons: `public/icons/`, generated from the supplied logo against the brand background/primary cyan
+- Browser favicon and PWA icons: `public/icons/`, sourced from the original favicon at `https://a.favicon.im/www.thesliceworthington.com`
 
 Future memberships, events, and promotions should be added where the `future-sections` marker is defined in `src/main.jsx`; the section is intentionally hidden in v1.
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for DNS, HTTPS, Whoosh behavior, and the iPhone test checklist.
-

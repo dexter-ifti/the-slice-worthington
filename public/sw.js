@@ -1,5 +1,5 @@
 const CACHE_NAME = 'the-slice-shell-v1';
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/assets/the-slice-logo.svg', '/assets/the-slice-hero.jpg', '/icons/apple-touch-icon.png', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png'];
+const APP_SHELL = ['/', '/index.html', '/manifest.json', '/assets/the-slice-logo.svg', '/assets/the-slice-hero.jpg', '/icons/favicon.png', '/icons/apple-touch-icon.png', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
