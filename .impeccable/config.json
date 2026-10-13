@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "montserrat",
+        "createdAt": "2026-10-13T05:13:30.442Z",
+        "reason": "user confirmed: live site CSS evidence requires Montserrat for brand fidelity"
+      }
+    ]
+  }
+}

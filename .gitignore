@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.DS_Store
+.impeccable/hook.cache.json
+.impeccable/review/
+.impeccable/mocks/
