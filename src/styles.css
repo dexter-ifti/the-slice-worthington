@@ -65,38 +65,38 @@
   --radius: 0.625rem;
   /* The Slice brand palette: Midnight Clubhouse, Backspin Purple,
    * Open Fairway Blue, Neon Fairway, and Power Drive Blue. */
-  --background: oklch(0 0 0);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.17 0.06 265);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.17 0.06 265);
-  --popover-foreground: oklch(0.98 0 0);
+  --background: oklch(0.985 0.003 90);
+  --foreground: oklch(0.12 0.04 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.12 0.04 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.12 0.04 265);
   --primary: oklch(0.76 0.18 230); /* Neon Fairway #02C5FB */
   --primary-foreground: oklch(0.12 0.04 265);
-  --secondary: oklch(0.34 0.22 282); /* Backspin Purple #280FB5 */
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.2 0.06 265);
-  --muted-foreground: oklch(0.76 0.03 250);
+  --secondary: oklch(0.94 0.04 260); /* Backspin Purple tint */
+  --secondary-foreground: oklch(0.2 0.1 282);
+  --muted: oklch(0.94 0.02 260);
+  --muted-foreground: oklch(0.4 0.04 265);
   --accent: oklch(0.66 0.25 265); /* Power Drive Blue #3D6BFE */
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --border: oklch(0.12 0.04 265 / 0.16);
+  --input: oklch(0.12 0.04 265 / 0.22);
   --ring: oklch(0.76 0.18 230);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.12 0.04 265);
+  --sidebar-primary: oklch(0.76 0.18 230);
+  --sidebar-primary-foreground: oklch(0.12 0.04 265);
+  --sidebar-accent: oklch(0.94 0.04 260);
+  --sidebar-accent-foreground: oklch(0.2 0.1 282);
+  --sidebar-border: oklch(0.12 0.04 265 / 0.16);
+  --sidebar-ring: oklch(0.76 0.18 230);
 }
 
 .dark {

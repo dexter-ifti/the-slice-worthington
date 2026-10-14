@@ -18,6 +18,7 @@ const items = [
 export function SiteHeader({ dark = false }: { dark?: boolean }) {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const headerLogo = dark ? logoLight : logo;
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -30,12 +31,12 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
     <>
       <header className="relative z-20 flex items-center justify-between pt-safe">
         <Link to="/" aria-label="The Slice home">
-          <img src={logoLight} alt="The Slice Worthington" className="h-20 w-auto" />
+          <img src={headerLogo} alt="The Slice Worthington" className="h-20 w-auto" />
         </Link>
         <button
           onClick={() => setOpen(true)}
           aria-label="Open menu"
-          className="rounded-full p-2 text-foreground transition-colors hover:text-primary"
+          className={`rounded-full p-2 transition-colors hover:text-primary ${dark ? "text-white" : "text-foreground"}`}
         >
           <Menu className="h-6 w-6" />
         </button>

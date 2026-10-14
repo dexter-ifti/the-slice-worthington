@@ -54,7 +54,7 @@ function Home() {
   const { show, dismiss } = useInstallHint();
 
   return (
-    <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-background">
+    <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black">
       <div className="hero-media absolute inset-0">
         <video
           className="hero-video h-full w-full object-cover"
@@ -73,19 +73,19 @@ function Home() {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-safe pb-safe">
-        <SiteHeader />
+        <SiteHeader dark />
 
         <div className="flex-1" />
 
         <section className="animate-rise space-y-4" style={{ animationDelay: "120ms" }}>
-          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-foreground">
+          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-white">
             Swing.
             <br />
             Smile.
             <br />
             Stay Awhile.
           </h2>
-          <p className="max-w-xs text-lg text-foreground/85">
+          <p className="max-w-xs text-lg text-white/85">
             Approachable golf, multisport games, great food, and a laid-back vibe in Worthington.
           </p>
         </section>
@@ -102,11 +102,11 @@ function Home() {
             href={WEBSITE_URL}
             target="_blank"
             rel="noreferrer"
-            className="flex h-12 items-center justify-center gap-2 rounded-full border border-border text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+            className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/30 text-sm font-medium text-white/85 transition-colors hover:text-white"
           >
             <Globe className="h-4 w-4" /> Visit our website
           </a>
-          <p className="pt-2 text-center text-xs tracking-[0.3em] text-muted-foreground uppercase">
+          <p className="pt-2 text-center text-xs tracking-[0.3em] text-white/70 uppercase">
             Golf, games, food, and good times
           </p>
         </div>
