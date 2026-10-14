@@ -62,7 +62,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-4 rounded-2xl px-4 py-4 text-lg font-medium"
+                  className="flex touch-manipulation items-center gap-4 rounded-2xl px-4 py-4 text-lg font-medium transition-transform duration-150 ease-out active:scale-[0.98]"
                 >
                   <item.icon className="h-5 w-5" />
                   <span className="flex-1">{item.label}</span>
@@ -73,7 +73,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
                   key={item.label}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className={`flex items-center gap-4 rounded-2xl px-4 py-4 text-lg font-medium ${pathname === item.to ? "menu-item-active" : ""}`}
+                  className={`flex touch-manipulation items-center gap-4 rounded-2xl px-4 py-4 text-lg font-medium transition-transform duration-150 ease-out active:scale-[0.98] ${pathname === item.to ? "menu-item-active" : ""}`}
                   aria-current={pathname === item.to ? "page" : undefined}
                 >
                   <item.icon className="h-5 w-5" />

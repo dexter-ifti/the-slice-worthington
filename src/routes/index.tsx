@@ -97,7 +97,7 @@ function Home() {
             href={WEBSITE_URL}
             target="_blank"
             rel="noreferrer"
-            className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/30 text-sm font-medium text-white/85 transition-colors hover:text-white"
+            className="flex h-12 touch-manipulation items-center justify-center gap-2 rounded-full border border-white/30 text-sm font-medium text-white/85 transition-[transform,color] duration-150 ease-out hover:text-white active:scale-[0.97]"
           >
             <Globe className="h-4 w-4" /> Visit our website
           </a>
