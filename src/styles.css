@@ -63,25 +63,27 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.16 0.02 165);
-  --foreground: oklch(0.96 0.01 150);
-  --card: oklch(0.2 0.025 165);
-  --card-foreground: oklch(0.96 0.01 150);
-  --popover: oklch(0.2 0.025 165);
-  --popover-foreground: oklch(0.96 0.01 150);
-  --primary: oklch(0.87 0.24 128);
-  --primary-foreground: oklch(0.16 0.02 165);
-  --secondary: oklch(0.24 0.03 165);
-  --secondary-foreground: oklch(0.96 0.01 150);
-  --muted: oklch(0.24 0.03 165);
-  --muted-foreground: oklch(0.7 0.02 160);
-  --accent: oklch(0.87 0.24 128);
-  --accent-foreground: oklch(0.16 0.02 165);
+  /* The Slice brand palette: Midnight Clubhouse, Backspin Purple,
+   * Open Fairway Blue, Neon Fairway, and Power Drive Blue. */
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.17 0.06 265);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.17 0.06 265);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.76 0.18 230); /* Neon Fairway #02C5FB */
+  --primary-foreground: oklch(0.12 0.04 265);
+  --secondary: oklch(0.34 0.22 282); /* Backspin Purple #280FB5 */
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0.06 265);
+  --muted-foreground: oklch(0.76 0.03 250);
+  --accent: oklch(0.66 0.25 265); /* Power Drive Blue #3D6BFE */
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.87 0.24 128);
+  --ring: oklch(0.76 0.18 230);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -98,25 +100,25 @@
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.17 0.06 265);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.17 0.06 265);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.76 0.18 230);
+  --primary-foreground: oklch(0.12 0.04 265);
+  --secondary: oklch(0.34 0.22 282);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0.06 265);
+  --muted-foreground: oklch(0.76 0.03 250);
+  --accent: oklch(0.66 0.25 265);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
+  --ring: oklch(0.76 0.18 230);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -144,8 +146,8 @@
 }
 
 @theme inline {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -154,13 +156,13 @@
 
 @utility brand-dash { width: 2.25rem; height: 3px; border-radius: 2px; background: var(--color-primary); }
 @utility wordmark { font-family: var(--font-display); letter-spacing: 0.35em; font-weight: 500; text-transform: uppercase; }
-@utility hero-scrim { background: linear-gradient(180deg, oklch(0.16 0.02 165 / 0.85) 0%, oklch(0.16 0.02 165 / 0.15) 35%, oklch(0.16 0.02 165 / 0.4) 60%, oklch(0.16 0.02 165) 100%); }
+@utility hero-scrim { background: linear-gradient(180deg, oklch(0 0 0 / 0.88) 0%, oklch(0 0 0 / 0.16) 35%, oklch(0 0 0 / 0.48) 60%, oklch(0 0 0) 100%); }
 @utility pb-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
 @utility pt-safe { padding-top: max(1.25rem, env(safe-area-inset-top)); }
-@utility glow-primary { box-shadow: 0 10px 40px -10px oklch(0.87 0.24 128 / 0.6); }
+@utility glow-primary { box-shadow: 0 10px 40px -10px oklch(0.76 0.18 230 / 0.55); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @utility animate-rise { animation: rise 0.8s cubic-bezier(.2,.7,.2,1) both; }
 
-@utility menu-panel { background: oklch(0.97 0.008 130); color: oklch(0.2 0.03 165); }
-@utility menu-item-active { background: oklch(0.87 0.24 128 / 0.35); }
+@utility menu-panel { background: oklch(0.98 0 0); color: oklch(0.12 0.04 265); }
+@utility menu-item-active { background: oklch(0.76 0.18 230 / 0.2); }
