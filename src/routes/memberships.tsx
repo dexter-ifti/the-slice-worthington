@@ -4,6 +4,9 @@ import { BrandCta } from "@/components/brand-cta";
 import { PageShell } from "@/components/page-shell";
 import { MEMBERSHIPS_URL } from "@/lib/links";
 
+const IMG =
+  "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69df1581096927fea86ddcee_TS%20VibeImages-02-1.jpg";
+
 export const Route = createFileRoute("/memberships")({
   head: () => ({
     meta: [
@@ -32,13 +35,22 @@ const perks = [
 
 function Memberships() {
   return (
-    <PageShell>
+    <PageShell bookingCtaHelper="Already a member? Reserve a golf bay." bookingCtaVariant="outline">
       <h1 className="font-display text-4xl font-semibold">Founders Club</h1>
       <p className="mt-3 text-foreground/80">
         Be the first to experience The Slice — a fun, welcoming place for golf, games, food, and
         time together. Limited memberships available.
       </p>
-      <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+      <img
+        src={IMG}
+        alt="Child practicing a golf swing in a simulator bay at The Slice"
+        width={1280}
+        height={960}
+        loading="eager"
+        fetchPriority="high"
+        className="mt-6 aspect-[4/3] w-full rounded-2xl object-[65%_center] object-cover"
+      />
+      <div className="mt-8 rounded-2xl border border-foreground/15 bg-card p-6 shadow-sm">
         <ul className="space-y-4">
           {perks.map((p) => (
             <li key={p} className="flex items-center gap-3">
@@ -46,7 +58,7 @@ function Memberships() {
             </li>
           ))}
         </ul>
-        <BrandCta href={MEMBERSHIPS_URL} target="_blank" rel="noreferrer" className="mt-6">
+        <BrandCta href={MEMBERSHIPS_URL} target="_blank" rel="noreferrer" className="mt-8">
           Join Founders Club
         </BrandCta>
       </div>
