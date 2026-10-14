@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Globe, Share, PlusSquare, X } from "lucide-react";
+import { Globe, Share, PlusSquare, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero-bay.jpg";
+import { BrandCta } from "@/components/brand-cta";
 import {
   HERO_VIDEO_DESKTOP_URL,
   HERO_VIDEO_MOBILE_URL,
@@ -91,13 +92,7 @@ function Home() {
         </section>
 
         <div className="animate-rise mt-8 space-y-3" style={{ animationDelay: "240ms" }}>
-          <a
-            href={WHOOSH_BOOKING_URL}
-            className="glow-primary flex h-16 items-center justify-between rounded-full bg-primary px-8 text-lg font-semibold text-primary-foreground transition-transform active:scale-[0.98]"
-          >
-            <span className="flex-1 text-center">Book a Bay</span>
-            <ArrowRight className="h-5 w-5" />
-          </a>
+          <BrandCta href={WHOOSH_BOOKING_URL}>Book a Bay</BrandCta>
           <a
             href={WEBSITE_URL}
             target="_blank"

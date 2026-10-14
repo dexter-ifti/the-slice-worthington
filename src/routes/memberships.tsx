@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check } from "lucide-react";
+import { BrandCta } from "@/components/brand-cta";
 import { PageShell } from "@/components/page-shell";
 import { MEMBERSHIPS_URL } from "@/lib/links";
 
@@ -7,9 +8,15 @@ export const Route = createFileRoute("/memberships")({
   head: () => ({
     meta: [
       { title: "Founders Club Memberships — The Slice" },
-      { name: "description", content: "Priority access, exclusive Founders pricing and early booking at The Slice." },
+      {
+        name: "description",
+        content: "Priority access, exclusive Founders pricing and early booking at The Slice.",
+      },
       { property: "og:title", content: "Founders Club — The Slice" },
-      { property: "og:description", content: "Priority access, exclusive Founders pricing and early booking at The Slice." },
+      {
+        property: "og:description",
+        content: "Priority access, exclusive Founders pricing and early booking at The Slice.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -17,7 +24,11 @@ export const Route = createFileRoute("/memberships")({
   component: Memberships,
 });
 
-const perks = ["Priority access before public opening", "Exclusive Founders pricing", "Early booking privileges"];
+const perks = [
+  "Priority access before public opening",
+  "Exclusive Founders pricing",
+  "Early booking privileges",
+];
 
 function Memberships() {
   return (
@@ -35,14 +46,9 @@ function Memberships() {
             </li>
           ))}
         </ul>
-        <a
-          href={MEMBERSHIPS_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 flex h-12 items-center justify-center rounded-full border border-primary font-semibold text-primary"
-        >
+        <BrandCta href={MEMBERSHIPS_URL} target="_blank" rel="noreferrer" className="mt-6">
           Join Founders Club
-        </a>
+        </BrandCta>
       </div>
     </PageShell>
   );
