@@ -30,7 +30,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
     <>
       <header className="relative z-20 flex items-center justify-between pt-safe">
         <Link to="/" aria-label="The Slice home">
-          <img src={logoLight} alt="The Slice Worthington" className="h-12 w-auto" />
+          <img src={logoLight} alt="The Slice Worthington" className="h-20 w-auto" />
         </Link>
         <button
           onClick={() => setOpen(true)}
@@ -48,7 +48,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <img src={logo} alt="The Slice Worthington" className="h-12 w-auto" />
+              <img src={logo} alt="The Slice Worthington" className="h-16 w-auto" />
             </div>
             <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2">
               <X className="h-6 w-6" />
