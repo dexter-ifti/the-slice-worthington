@@ -87,7 +87,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
           </nav>
 
           <p className="text-center text-xs tracking-[0.3em] uppercase opacity-60">
-            Golf. Play. Repeat.
+            Swing. Smile. Stay Awhile.
           </p>
         </div>
       )}

@@ -40,7 +40,7 @@ function About() {
       <h1 className="font-display text-4xl font-semibold leading-tight">More Than Just Golf</h1>
       <p className="mt-3 text-foreground/80">
         Approachable Golf™, right here in Worthington, Ohio. Your go-to spot for simulator golf,
-        great pizza, and a laid-back vibe. Book a bay — swing, smile, and stay awhile.
+        multisport games, great pizza, and a laid-back vibe. Swing, smile, and stay awhile.
         <strong className="mt-2 block text-primary">Opening Fall of 2026!</strong>
       </p>
       <img src={IMG} alt="The Slice lounge" loading="lazy" className="mt-6 aspect-[4/3] w-full rounded-2xl object-cover" />

@@ -7,5 +7,6 @@ export const HERO_VIDEO_MOBILE_URL =
 export const WEBSITE_URL = "https://www.thesliceworthington.com";
 export const MEMBERSHIPS_URL = "https://www.thesliceworthington.com/memberships";
 export const CONTACT_US_URL = "https://www.thesliceworthington.com/contact-us";
+export const INSTAGRAM_URL = "https://www.instagram.com/thesliceworthington/";
 export const MAPS_URL = "https://maps.app.goo.gl/RbWzn94NjXnMYyX49";
 export const ADDRESS = "121 W. Wilson Bridge Road, Suite 140, Worthington, Ohio 43085";

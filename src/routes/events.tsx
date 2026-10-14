@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, Cake, PartyPopper, Users } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
-import { WEBSITE_URL } from "@/lib/links";
+import { INSTAGRAM_URL } from "@/lib/links";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -44,12 +44,12 @@ function Events() {
         Event dates and bookings will be announced closer to our opening in Fall 2026.
       </p>
       <a
-        href={WEBSITE_URL}
+        href={INSTAGRAM_URL}
         target="_blank"
         rel="noreferrer"
         className="mt-4 inline-flex items-center gap-2 font-semibold text-primary"
       >
-        Follow updates on thesliceworthington.com <ArrowUpRight className="h-4 w-4" />
+        Follow Along on Instagram <ArrowUpRight className="h-4 w-4" />
       </a>
     </PageShell>
   );

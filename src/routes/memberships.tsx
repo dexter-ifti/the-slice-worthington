@@ -24,7 +24,8 @@ function Memberships() {
     <PageShell>
       <h1 className="font-display text-4xl font-semibold">Founders Club</h1>
       <p className="mt-3 text-foreground/80">
-        Be the first to experience The Slice. Limited memberships available.
+        Be the first to experience The Slice — a fun, welcoming place for golf, games, food, and
+        time together. Limited memberships available.
       </p>
       <div className="mt-8 rounded-2xl border border-border bg-card p-6">
         <ul className="space-y-4">

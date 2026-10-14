@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
-import lounge from "@/assets/lounge-wide.jpg";
+
+const IMG =
+  "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69d87f286b08255899dc1d9a_TS%20VibeImages-03.webp";
 
 export const Route = createFileRoute("/simulators")({
   head: () => ({
@@ -18,18 +20,26 @@ export const Route = createFileRoute("/simulators")({
 
 const features = [
   ["Fun for Everyone", "A true golf experience without losing the fun — avid golfers, beginners, and everyone in between."],
-  ["More Than Just Golf", "Our simulators feature a full lineup of multisport games like soccer, baseball, football, and interactive challenges that kids and groups love."],
+  ["More Than Just Golf", "Full Swing supports a lineup of multisport games like soccer, baseball, football, and interactive challenges that kids and groups love."],
   ["All Ages", "Active, engaging, and perfect for all ages, so everyone has something to play."],
 ];
 
 function Simulators() {
   return (
     <PageShell>
-      <h1 className="font-display text-4xl font-semibold">Our Simulators</h1>
+      <h1 className="font-display text-4xl font-semibold">More Than Just Golf</h1>
       <p className="mt-3 text-foreground/80">
-        Sharpen your game, compete with friends, or just show up for a casual night out.
+        Full Swing experiences for sharpening your game, competing with friends, or showing up
+        for a casual night out.
       </p>
-      <img src={lounge} alt="Simulator bays" width={1600} height={912} loading="lazy" className="mt-6 aspect-[4/3] w-full rounded-2xl object-cover" />
+      <img
+        src={IMG}
+        alt="Guests enjoying a multisport experience at The Slice"
+        width={1280}
+        height={960}
+        loading="lazy"
+        className="mt-6 aspect-[4/3] w-full rounded-2xl object-cover"
+      />
       <ul className="mt-6 space-y-5">
         {features.map(([t, d]) => (
           <li key={t}>
