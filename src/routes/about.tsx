@@ -9,9 +9,17 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — The Slice Worthington" },
-      { name: "description", content: "Approachable Golf in Worthington, Ohio: simulator golf, great pizza and a laid-back vibe. Opening Fall 2026." },
+      {
+        name: "description",
+        content:
+          "Approachable Golf in Worthington, Ohio: simulator golf, great pizza and a laid-back vibe. Opening Fall 2026.",
+      },
       { property: "og:title", content: "About The Slice" },
-      { property: "og:description", content: "Approachable Golf in Worthington, Ohio: simulator golf, great pizza and a laid-back vibe. Opening Fall 2026." },
+      {
+        property: "og:description",
+        content:
+          "Approachable Golf in Worthington, Ohio: simulator golf, great pizza and a laid-back vibe. Opening Fall 2026.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:image", content: IMG },
       { name: "twitter:image", content: IMG },
@@ -22,16 +30,40 @@ export const Route = createFileRoute("/about")({
 });
 
 const rows = [
-  { icon: Users, t: "Fun for Everyone", d: "A true golf experience without losing the fun — avid golfers, beginners, and everyone in between." },
-  { icon: Gamepad2, t: "More Than Just Golf", d: "Multisport games like soccer, baseball, and football, plus interactive challenges kids and groups love." },
-  { icon: MapPin, t: "A Place to Gather", d: "Birthday parties, family nights, casual meetups, and group hangs — with great food, drinks, and a relaxed vibe." },
+  {
+    icon: Users,
+    t: "Fun for Everyone",
+    d: "A true golf experience without losing the fun — avid golfers, beginners, and everyone in between.",
+  },
+  {
+    icon: Gamepad2,
+    t: "More Than Just Golf",
+    d: "Multisport games like soccer, baseball, and football, plus interactive challenges kids and groups love.",
+  },
+  {
+    icon: MapPin,
+    t: "A Place to Gather",
+    d: "Birthday parties, family nights, casual meetups, and group hangs — with great food, drinks, and a relaxed vibe.",
+  },
 ];
 
 const testimonials = [
-  { q: "We’ve been waiting for something like this in Worthington. A place where we can bring the kids and still actually enjoy ourselves? We’ll be there week one.", by: "Sarah M., Worthington" },
-  { q: "Already planning our girls’ night here as soon as it opens. Golf without the pressure plus good food and drinks… I’m in.", by: "Emily R., Columbus" },
-  { q: "The multisport setup is what sold me. My kids aren’t all into golf, but this gives everyone something to do. Can’t wait to check it out.", by: "Jason K., Dublin" },
-  { q: "Finally something different in the area. This feels like the kind of spot you go once and then keep coming back to. Counting down to opening day.", by: "Lauren T., Powell" },
+  {
+    q: "We’ve been waiting for something like this in Worthington. A place where we can bring the kids and still actually enjoy ourselves? We’ll be there week one.",
+    by: "Sarah M., Worthington",
+  },
+  {
+    q: "Already planning our girls’ night here as soon as it opens. Golf without the pressure plus good food and drinks… I’m in.",
+    by: "Emily R., Columbus",
+  },
+  {
+    q: "The multisport setup is what sold me. My kids aren’t all into golf, but this gives everyone something to do. Can’t wait to check it out.",
+    by: "Jason K., Dublin",
+  },
+  {
+    q: "Finally something different in the area. This feels like the kind of spot you go once and then keep coming back to. Counting down to opening day.",
+    by: "Lauren T., Powell",
+  },
 ];
 
 function About() {
@@ -43,8 +75,15 @@ function About() {
         multisport games, great pizza, and a laid-back vibe. Swing, smile, and stay awhile.
         <strong className="mt-2 block text-primary">Opening Fall of 2026!</strong>
       </p>
-      <img src={IMG} alt="The Slice lounge" loading="lazy" className="mt-6 aspect-[4/3] w-full rounded-2xl object-cover" />
-      <ul className="mt-4 divide-y divide-border">
+      <div className="group mt-6 overflow-hidden rounded-2xl">
+        <img
+          src={IMG}
+          alt="The Slice lounge"
+          loading="lazy"
+          className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
+        />
+      </div>
+      <ul className="mt-4">
         {rows.map(({ icon: Icon, t, d }) => (
           <li key={t} className="flex gap-4 py-5">
             <Icon className="mt-1 h-6 w-6 text-primary" />

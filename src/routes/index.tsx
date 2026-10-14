@@ -3,12 +3,7 @@ import { Globe, Share, PlusSquare, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero-bay.jpg";
 import { BrandCta } from "@/components/brand-cta";
-import {
-  HERO_VIDEO_DESKTOP_URL,
-  HERO_VIDEO_MOBILE_URL,
-  WEBSITE_URL,
-  WHOOSH_BOOKING_URL,
-} from "@/lib/links";
+import { HERO_VIDEO_MOBILE_URL, WEBSITE_URL, WHOOSH_BOOKING_URL } from "@/lib/links";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/")({
@@ -67,8 +62,7 @@ function Home() {
           poster={heroImg}
           aria-hidden="true"
         >
-          <source src={HERO_VIDEO_MOBILE_URL} media="(max-width: 767px)" type="video/mp4" />
-          <source src={HERO_VIDEO_DESKTOP_URL} type="video/mp4" />
+          <source src={HERO_VIDEO_MOBILE_URL} type="video/mp4" />
         </video>
         <div className="hero-scrim absolute inset-0" />
       </div>
