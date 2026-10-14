@@ -55,20 +55,22 @@ function Home() {
 
   return (
     <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-background">
-      <video
-        className="hero-video absolute inset-0 h-full w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster={heroImg}
-        aria-hidden="true"
-      >
-        <source src={HERO_VIDEO_MOBILE_URL} media="(max-width: 767px)" type="video/mp4" />
-        <source src={HERO_VIDEO_DESKTOP_URL} type="video/mp4" />
-      </video>
-      <div className="hero-scrim absolute inset-0" />
+      <div className="hero-media absolute inset-0">
+        <video
+          className="hero-video h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={heroImg}
+          aria-hidden="true"
+        >
+          <source src={HERO_VIDEO_MOBILE_URL} media="(max-width: 767px)" type="video/mp4" />
+          <source src={HERO_VIDEO_DESKTOP_URL} type="video/mp4" />
+        </video>
+        <div className="hero-scrim absolute inset-0" />
+      </div>
 
       <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-safe pb-safe">
         <SiteHeader />

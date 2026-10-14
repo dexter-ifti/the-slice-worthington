@@ -171,3 +171,13 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-video { display: none; }
 }
+
+@media (max-width: 767px) {
+  .hero-media {
+    bottom: auto;
+    height: 54dvh;
+    min-height: 22rem;
+  }
+
+  .hero-video { object-position: center top; }
+}
