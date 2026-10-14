@@ -2,7 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Globe, Share, PlusSquare, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import heroImg from "@/assets/hero-bay.jpg";
-import { WEBSITE_URL, WHOOSH_BOOKING_URL } from "@/lib/links";
+import {
+  HERO_VIDEO_DESKTOP_URL,
+  HERO_VIDEO_MOBILE_URL,
+  WEBSITE_URL,
+  WHOOSH_BOOKING_URL,
+} from "@/lib/links";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/")({
@@ -11,12 +16,14 @@ export const Route = createFileRoute("/")({
       { title: "The Slice — Book a Golf Simulator Bay in Worthington" },
       {
         name: "description",
-        content: "Premium golf simulators in Worthington. Book one of our five bays in seconds.",
+        content:
+          "Approachable golf, multisport games, great pizza, and a laid-back vibe in Worthington.",
       },
       { property: "og:title", content: "The Slice — Book a Bay" },
       {
         property: "og:description",
-        content: "Premium golf simulators in Worthington. Book one of our five bays in seconds.",
+        content:
+          "Approachable golf, multisport games, great pizza, and a laid-back vibe in Worthington.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -48,13 +55,19 @@ function Home() {
 
   return (
     <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-background">
-      <img
-        src={heroImg}
-        alt="Simulator bay at The Slice"
-        width={1088}
-        height={1600}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <video
+        className="hero-video absolute inset-0 h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={heroImg}
+        aria-hidden="true"
+      >
+        <source src={HERO_VIDEO_MOBILE_URL} media="(max-width: 767px)" type="video/mp4" />
+        <source src={HERO_VIDEO_DESKTOP_URL} type="video/mp4" />
+      </video>
       <div className="hero-scrim absolute inset-0" />
 
       <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-safe pb-safe">
@@ -63,15 +76,15 @@ function Home() {
         <div className="flex-1" />
 
         <section className="animate-rise space-y-4" style={{ animationDelay: "120ms" }}>
-          <h2 className="font-display text-6xl font-semibold leading-[0.95] tracking-tight text-foreground">
-            Golf.
+          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-foreground">
+            Swing.
             <br />
-            Play.
+            Smile.
             <br />
-            Repeat.
+            Stay Awhile.
           </h2>
           <p className="max-w-xs text-lg text-foreground/85">
-            Premium golf simulators in Worthington.
+            Approachable golf, multisport games, great food, and a laid-back vibe in Worthington.
           </p>
         </section>
 
@@ -92,7 +105,7 @@ function Home() {
             <Globe className="h-4 w-4" /> Visit our website
           </a>
           <p className="pt-2 text-center text-xs tracking-[0.3em] text-muted-foreground uppercase">
-            5 bays · Worthington
+            Golf, games, food, and good times
           </p>
         </div>
       </div>
