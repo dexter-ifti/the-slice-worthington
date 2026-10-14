@@ -18,7 +18,6 @@ const items = [
 export function SiteHeader({ dark = false }: { dark?: boolean }) {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-  const headerLogo = dark ? logoLight : logo;
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -31,7 +30,24 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
     <>
       <header className="relative z-20 flex items-center justify-between pt-safe">
         <Link to="/" aria-label="The Slice home">
-          <img src={headerLogo} alt="The Slice Worthington" className="h-20 w-auto" />
+          {dark ? (
+            <span className="relative block h-20 w-[12.25rem]">
+              <img
+                src={logo}
+                alt="The Slice Worthington"
+                className="absolute inset-0 h-full w-auto max-w-none"
+              />
+              <img
+                src={logoLight}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 h-full w-auto max-w-none"
+                style={{ clipPath: "inset(0 0 0 40%)" }}
+              />
+            </span>
+          ) : (
+            <img src={logo} alt="The Slice Worthington" className="h-20 w-auto" />
+          )}
         </Link>
         <button
           onClick={() => setOpen(true)}
