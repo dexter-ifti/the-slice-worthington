@@ -50,10 +50,13 @@ function Home() {
   const { show, dismiss } = useInstallHint();
 
   return (
-    <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-black">
-      <div className="hero-media absolute inset-0">
+    <main className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-background md:bg-black">
+      <div className="hero-media relative h-[52dvh] min-h-[22rem] shrink-0 md:absolute md:inset-0 md:h-auto">
+        <div className="relative z-10 mx-auto w-full max-w-md px-6 pt-safe">
+          <SiteHeader dark />
+        </div>
         <video
-          className="hero-video h-full w-full object-cover"
+          className="hero-video absolute inset-0 h-full w-full object-cover"
           autoPlay
           muted
           loop
@@ -67,20 +70,18 @@ function Home() {
         <div className="hero-scrim absolute inset-0" />
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-safe pb-safe">
-        <SiteHeader dark />
-
-        <div className="flex-1" />
+      <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col px-6 pt-8 pb-safe md:min-h-[100dvh] md:pt-0">
+        <div className="flex-1 md:block" />
 
         <section className="animate-rise space-y-4" style={{ animationDelay: "120ms" }}>
-          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-white">
+          <h2 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-foreground md:text-white">
             Swing.
             <br />
             Smile.
             <br />
             Stay Awhile.
           </h2>
-          <p className="max-w-xs text-lg text-white/85">
+          <p className="max-w-xs text-lg text-foreground/75 md:text-white/85">
             Approachable golf, multisport games, great food, and a laid-back vibe in Worthington.
           </p>
         </section>
@@ -91,11 +92,11 @@ function Home() {
             href={WEBSITE_URL}
             target="_blank"
             rel="noreferrer"
-            className="flex h-12 touch-manipulation items-center justify-center gap-2 rounded-full border border-white/30 text-sm font-medium text-white/85 transition-[transform,color] duration-150 ease-out hover:text-white active:scale-[0.97]"
+            className="flex h-12 touch-manipulation items-center justify-center gap-2 rounded-full border border-border text-sm font-medium text-foreground/75 transition-[transform,color] duration-150 ease-out hover:text-foreground active:scale-[0.97] md:border-white/30 md:text-white/85 md:hover:text-white"
           >
             <Globe className="h-4 w-4" /> Visit our website
           </a>
-          <p className="pt-2 text-center text-xs tracking-[0.3em] text-white/70 uppercase">
+          <p className="pt-2 text-center text-xs tracking-[0.3em] text-muted-foreground uppercase md:text-white/70">
             Golf, games, food, and good times
           </p>
         </div>
