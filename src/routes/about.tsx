@@ -117,16 +117,16 @@ function About() {
         {rows.map((row) => (
           <article
             key={row.number}
-            className="grid grid-cols-[minmax(0,1fr)_8rem] gap-4 border-b border-border py-8 md:grid-cols-[4rem_minmax(0,1fr)_14rem] md:items-center md:gap-8 md:py-9"
+            className="grid gap-6 border-b border-border py-8 md:grid-cols-[4rem_minmax(0,1fr)_14rem] md:items-center md:gap-8 md:py-9"
           >
-            <span className="col-span-2 text-2xl font-medium tracking-tight text-muted-foreground md:col-span-1">
+            <span className="text-2xl font-medium tracking-tight text-muted-foreground">
               {row.number}
             </span>
             <div>
-              <h2 className="font-display text-xl font-medium tracking-tight md:text-3xl">
+              <h2 className="font-display text-2xl font-medium tracking-tight md:text-3xl">
                 {row.title}
               </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground md:mt-3 md:text-lg">
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
                 {row.description}
               </p>
             </div>
