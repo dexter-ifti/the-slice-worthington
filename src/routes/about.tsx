@@ -130,14 +130,16 @@ function About() {
                 {row.description}
               </p>
             </div>
-            <img
-              src={row.image}
-              alt={row.alt}
-              width={560}
-              height={360}
-              loading="lazy"
-              className="aspect-[4/3] w-full rounded-lg object-cover"
-            />
+            <div className="group overflow-hidden rounded-lg">
+              <img
+                src={row.image}
+                alt={row.alt}
+                width={560}
+                height={360}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
+              />
+            </div>
           </article>
         ))}
       </div>
