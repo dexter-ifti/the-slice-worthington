@@ -4,9 +4,6 @@ import { BrandCta } from "@/components/brand-cta";
 import { PageShell } from "@/components/page-shell";
 import { MEMBERSHIPS_URL } from "@/lib/links";
 
-const IMG =
-  "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69df1581096927fea86ddcee_TS%20VibeImages-02-1.jpg";
-
 export const Route = createFileRoute("/memberships")({
   head: () => ({
     meta: [
@@ -41,17 +38,6 @@ function Memberships() {
         Be the first to experience The Slice — a fun, welcoming place for golf, games, food, and
         time together. Limited memberships available.
       </p>
-      <div className="group mt-6 overflow-hidden rounded-2xl">
-        <img
-          src={IMG}
-          alt="Child practicing a golf swing in a simulator bay at The Slice"
-          width={1280}
-          height={960}
-          loading="eager"
-          fetchPriority="high"
-          className="aspect-[4/3] w-full object-[65%_center] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
-        />
-      </div>
       <div className="mt-8 rounded-2xl border border-foreground/15 bg-card p-6 shadow-sm">
         <ul className="space-y-4">
           {perks.map((p) => (
