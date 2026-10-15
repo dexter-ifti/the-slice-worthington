@@ -20,14 +20,14 @@ export function PageShell({
   return (
     <main
       className={cn(
-        "mx-auto flex min-h-[100dvh] w-full flex-col bg-background px-6 pb-[calc(10rem+env(safe-area-inset-bottom))]",
+        "mx-auto flex min-h-[100dvh] w-full flex-col bg-background px-6",
         wide ? "max-w-6xl" : "max-w-md",
       )}
     >
       <SiteHeader />
-      <div className="flex-1 pt-8">{children}</div>
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 mx-auto w-full max-w-md px-6 pb-safe">
-        <div className="pointer-events-auto bg-gradient-to-t from-background via-background/95 to-transparent pt-6">
+      <div className="flex-1 pt-8 pb-28">{children}</div>
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 bg-gradient-to-t from-background via-background/95 to-transparent px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-8">
+        <div className="pointer-events-auto mx-auto w-full max-w-md">
           {bookingCtaHelper && (
             <p className="mb-2 text-center text-sm text-muted-foreground">{bookingCtaHelper}</p>
           )}
