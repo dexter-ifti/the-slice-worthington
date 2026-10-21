@@ -38,6 +38,7 @@ jobs:
           if [ ! -d ios ]; then
             npx cap add ios --packagemanager SPM
           fi
+          npm run cap:assets:ios
           npx cap sync ios
 
       - name: Build iOS Simulator app
