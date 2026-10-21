@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Native signing credentials and generated release artifacts
+android/app/release-key.jks
+apk/*.apk

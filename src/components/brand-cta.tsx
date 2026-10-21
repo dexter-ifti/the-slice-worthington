@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { isNativePlatform, openExternalUrl } from "@/lib/platform";
 
 const ease = "ease-[cubic-bezier(0.65,0,0.35,1)]";
 const roll = `transition-transform duration-300 ${ease} motion-reduce:transition-none`;
@@ -12,10 +13,27 @@ interface BrandCtaProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: BrandCtaVariant;
 }
 
-export function BrandCta({ children, className, variant = "primary", ...props }: BrandCtaProps) {
+export function BrandCta({
+  children,
+  className,
+  variant = "primary",
+  onClick,
+  href,
+  ...props
+}: BrandCtaProps) {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
+    if (!event.defaultPrevented && href && isNativePlatform() && /^https?:\/\//.test(href)) {
+      event.preventDefault();
+      void openExternalUrl(href);
+    }
+  };
+
   return (
     <a
       {...props}
+      href={href}
+      onClick={handleClick}
       className={cn(
         "group relative flex h-16 w-full touch-manipulation items-center justify-center rounded-full py-4 pl-6 pr-16 text-lg font-semibold",
         `transition-[transform,background-color,color] duration-300 ${ease} motion-reduce:transition-none`,

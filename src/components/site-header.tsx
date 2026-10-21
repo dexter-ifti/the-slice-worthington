@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import logo from "@/assets/logo.svg";
 import logoLight from "@/assets/logo-light.svg";
 import { WHOOSH_BOOKING_URL } from "@/lib/links";
+import { isNativePlatform, openExternalUrl } from "@/lib/platform";
 
 const items = [
   { label: "Home", to: "/", icon: House },
@@ -78,6 +79,15 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
                 <a
                   key={item.label}
                   href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(event) => {
+                    setOpen(false);
+                    if (isNativePlatform()) {
+                      event.preventDefault();
+                      void openExternalUrl(item.href);
+                    }
+                  }}
                   className="flex touch-manipulation items-center gap-4 rounded-2xl px-4 py-4 text-lg font-medium transition-transform duration-150 ease-out active:scale-[0.98]"
                 >
                   <item.icon className="h-5 w-5" />

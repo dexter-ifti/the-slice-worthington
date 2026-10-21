@@ -5,6 +5,7 @@ import heroImg from "@/assets/hero-bay.jpg";
 import { BrandCta } from "@/components/brand-cta";
 import { HERO_VIDEO_MOBILE_URL, WEBSITE_URL, WHOOSH_BOOKING_URL } from "@/lib/links";
 import { SiteHeader } from "@/components/site-header";
+import { isNativePlatform, openExternalUrl } from "@/lib/platform";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/")({
 function useInstallHint() {
   const [show, setShow] = useState(false);
   useEffect(() => {
+    if (isNativePlatform()) return;
     const ua = navigator.userAgent;
     const isIOS = /iPhone|iPad|iPod/.test(ua);
     const standalone =
@@ -90,6 +92,12 @@ function Home() {
           <BrandCta href={WHOOSH_BOOKING_URL}>Book a Bay</BrandCta>
           <a
             href={WEBSITE_URL}
+            onClick={(event) => {
+              if (isNativePlatform()) {
+                event.preventDefault();
+                void openExternalUrl(WEBSITE_URL);
+              }
+            }}
             target="_blank"
             rel="noreferrer"
             className="flex h-12 touch-manipulation items-center justify-center gap-2 rounded-full border border-border text-sm font-medium text-foreground/75 transition-[transform,color] duration-150 ease-out hover:text-foreground active:scale-[0.97] md:border-white/30 md:text-white/85 md:hover:text-white"

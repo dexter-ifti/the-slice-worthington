@@ -1,0 +1,77 @@
+name: iOS Simulator Preview
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-ios-simulator:
+    name: Build iOS Simulator app
+    runs-on: macos-26
+    env:
+      APPETIZE_API_TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Build web application
+        run: npm run build
+
+      - name: Generate iOS Capacitor project
+        run: |
+          if [ ! -d ios ]; then
+            npx cap add ios --packagemanager SPM
+          fi
+          npx cap sync ios
+
+      - name: Build iOS Simulator app
+        run: |
+          set -euo pipefail
+          ios_project=$(find ios -maxdepth 3 -name 'App.xcodeproj' -print -quit)
+          test -n "$ios_project"
+
+          xcodebuild \
+            -project "$ios_project" \
+            -scheme App \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath build/ios \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
+
+          app_path=$(find build/ios -type d -path '*Debug-iphonesimulator/App.app' -print -quit)
+          test -n "$app_path"
+          ditto -c -k --sequesterRsrc --keepParent "$app_path" ios-simulator.zip
+
+      - name: Upload Simulator build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: the-slice-ios-simulator
+          path: ios-simulator.zip
+          if-no-files-found: error
+
+      - name: Upload to Appetize
+        if: env.APPETIZE_API_TOKEN != ''
+        uses: appetizeio/github-action-appetize@v1.1.0
+        with:
+          apiToken: ${{ env.APPETIZE_API_TOKEN }}
+          publicKey: ${{ vars.APPETIZE_PUBLIC_KEY }}
+          appFile: ios-simulator.zip
+          platform: ios
+          note: The Slice iOS Simulator preview - ${{ github.sha }}

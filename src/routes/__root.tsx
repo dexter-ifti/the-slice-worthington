@@ -8,10 +8,11 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { PwaRegister } from "@/components/pwa-register";
+import { setupNativeListeners } from "@/lib/platform";
 
 function NotFoundComponent() {
   return (
@@ -119,6 +120,13 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    return setupNativeListeners((path) => {
+      router.history.push(path);
+    });
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
