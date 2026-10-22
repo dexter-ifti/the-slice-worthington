@@ -34,3 +34,4 @@ dist-ssr
 # Native signing credentials and generated release artifacts
 android/app/release-key.jks
 apk/*.apk
+!apk/The-Slice-v1.0.0.apk
