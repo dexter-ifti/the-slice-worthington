@@ -105,7 +105,7 @@ function Home() {
             <Globe className="h-4 w-4" /> Visit our website
           </a>
           <p className="pt-2 text-center text-xs tracking-[0.3em] text-muted-foreground uppercase md:text-white/70">
-            Golf, games, food, and good times
+            Welcome to Approachable Golf ™️
           </p>
         </div>
       </div>
