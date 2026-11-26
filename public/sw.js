@@ -1,24 +1,44 @@
-const CACHE_VERSION = "the-slice-v1";
-const SHELL_CACHE = `${CACHE_VERSION}-shell`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const BUILD_ID = new URL(self.location.href).searchParams.get("v") || "transition";
+const CACHE_NAME = `the-slice-${BUILD_ID}`;
+const MAX_ENTRIES = 64;
+const ASSET_DESTINATIONS = new Set(["script", "style", "image", "font"]);
+let cacheWrites = Promise.resolve();
 
-const APP_SHELL = [
-  "/",
-  "/manifest.webmanifest",
-  "/favicon.svg",
-  "/icons/apple-touch-icon.png",
-  "/icons/icon-64.png",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
-];
+async function remember(request, response) {
+  if (!response.ok || response.type !== "basic" || response.redirected || response.status === 206) {
+    return;
+  }
+  if (/(?:^|,)\s*(?:no-store|private)\b/i.test(response.headers.get("Cache-Control") || "")) {
+    return;
+  }
+
+  const copy = response.clone();
+  cacheWrites = cacheWrites
+    .then(async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.put(request, copy);
+      const keys = await cache.keys();
+      const expired = keys.slice(0, Math.max(0, keys.length - MAX_ENTRIES));
+      await Promise.all(expired.map((key) => cache.delete(key)));
+    })
+    .catch(() => {
+      // Storage failures must not prevent a valid network response.
+    });
+  await cacheWrites;
+}
+
+async function fetchAndRemember(request) {
+  const response = await fetch(request);
+  await remember(request, response);
+  return response;
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(SHELL_CACHE)
-      .then((cache) => Promise.allSettled(APP_SHELL.map((url) => cache.add(url)))),
+    fetchAndRemember(new Request(new URL("/", self.location.origin)))
+      .catch(() => {})
+      .then(() => self.skipWaiting()),
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -28,7 +48,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("the-slice-") && !key.startsWith(CACHE_VERSION))
+            .filter((key) => key.startsWith("the-slice-") && key !== CACHE_NAME)
             .map((key) => caches.delete(key)),
         ),
       )
@@ -37,42 +57,34 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  const request = event.request;
+  const { request } = event;
   const url = new URL(request.url);
 
-  if (request.method !== "GET" || url.origin !== self.location.origin) return;
-
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            void caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(async () => {
-          const cachedPage = await caches.match(request);
-          return cachedPage || (await caches.match("/"));
-        }),
-    );
+  if (
+    request.method !== "GET" ||
+    url.origin !== self.location.origin ||
+    url.search ||
+    request.headers.has("Authorization") ||
+    request.headers.has("Range") ||
+    request.cache === "no-store"
+  ) {
     return;
   }
 
-  if (["script", "style", "image", "font"].includes(request.destination)) {
+  if (request.mode === "navigate") {
     event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached;
-
-        return fetch(request).then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            void caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        });
+      fetchAndRemember(request).catch(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        return (await cache.match(request)) ?? (await cache.match("/")) ?? Response.error();
       }),
+    );
+  } else if (ASSET_DESTINATIONS.has(request.destination)) {
+    event.respondWith(
+      caches
+        .open(CACHE_NAME)
+        .then((cache) => cache.match(request))
+        .catch(() => undefined)
+        .then((cached) => cached ?? fetchAndRemember(request)),
     );
   }
 });

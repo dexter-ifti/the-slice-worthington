@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Globe, MapPin, MessageSquare } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { ADDRESS, CONTACT_US_URL, MAPS_URL, WEBSITE_URL } from "@/lib/links";
@@ -85,6 +85,11 @@ function Contact() {
           </div>
         </a>
       </div>
+      <p className="mt-6 text-sm">
+        <Link to="/privacy" className="font-semibold underline">
+          Privacy policy
+        </Link>
+      </p>
     </PageShell>
   );
 }

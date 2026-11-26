@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as MembershipsRouteImport } from './routes/memberships'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SimulatorsRouteImport } from './routes/simulators'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const MembershipsRoute = MembershipsRouteImport.update({
   path: '/memberships',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulatorsRoute = SimulatorsRouteImport.update({
   id: '/simulators',
   path: '/simulators',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/memberships': typeof MembershipsRoute
+  '/privacy': typeof PrivacyRoute
   '/simulators': typeof SimulatorsRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/memberships': typeof MembershipsRoute
+  '/privacy': typeof PrivacyRoute
   '/simulators': typeof SimulatorsRoute
 }
 export interface FileRoutesById {
@@ -70,14 +78,28 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/events': typeof EventsRoute
   '/memberships': typeof MembershipsRoute
+  '/privacy': typeof PrivacyRoute
   '/simulators': typeof SimulatorsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/contact' | '/events' | '/memberships' | '/simulators'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/memberships'
+    | '/privacy'
+    | '/simulators'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/events' | '/memberships' | '/simulators'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/memberships'
+    | '/privacy'
+    | '/simulators'
   id:
     | '__root__'
     | '/'
@@ -85,6 +107,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/events'
     | '/memberships'
+    | '/privacy'
     | '/simulators'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +117,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   EventsRoute: typeof EventsRoute
   MembershipsRoute: typeof MembershipsRoute
+  PrivacyRoute: typeof PrivacyRoute
   SimulatorsRoute: typeof SimulatorsRoute
 }
 
@@ -134,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulators': {
       id: '/simulators'
       path: '/simulators'
@@ -150,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   EventsRoute: EventsRoute,
   MembershipsRoute: MembershipsRoute,
+  PrivacyRoute: PrivacyRoute,
   SimulatorsRoute: SimulatorsRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { getAllowedExternalUrl } from "@/lib/links";
 import { cn } from "@/lib/utils";
 import { isNativePlatform, openExternalUrl } from "@/lib/platform";
 
@@ -21,18 +22,21 @@ export function BrandCta({
   href,
   ...props
 }: BrandCtaProps) {
+  const externalUrl = href && getAllowedExternalUrl(href)?.href;
+  const linkHref = href && /^\/(?![/\\])[^\\\s]*$/.test(href) ? href : externalUrl;
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
-    if (!event.defaultPrevented && href && isNativePlatform() && /^https?:\/\//.test(href)) {
+    if (!event.defaultPrevented && externalUrl && isNativePlatform()) {
       event.preventDefault();
-      void openExternalUrl(href);
+      void openExternalUrl(externalUrl);
     }
   };
 
   return (
     <a
       {...props}
-      href={href}
+      href={linkHref || undefined}
+      rel={externalUrl ? "noopener noreferrer" : undefined}
       onClick={handleClick}
       className={cn(
         "group relative flex h-16 w-full touch-manipulation items-center justify-center rounded-full py-4 pl-6 pr-16 text-lg font-semibold",

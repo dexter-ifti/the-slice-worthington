@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 
-const IMG =
-  "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69d87f286b08255899dc1d9a_TS%20VibeImages-03.webp";
+const IMG = "/media/slice-multisport.webp";
 
 export const Route = createFileRoute("/simulators")({
   head: () => ({

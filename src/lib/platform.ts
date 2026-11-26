@@ -3,6 +3,7 @@ import { Capacitor } from "@capacitor/core";
 import { Browser } from "@capacitor/browser";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { StatusBar, Style } from "@capacitor/status-bar";
+import { getAllowedExternalUrl, getAppLinkPath } from "@/lib/links";
 
 export function isNativePlatform(): boolean {
   if (typeof window === "undefined") return false;
@@ -15,21 +16,24 @@ export function getPlatform(): "android" | "ios" | "web" {
 }
 
 export async function openExternalUrl(url: string, target = "_blank"): Promise<void> {
+  const allowedUrl = getAllowedExternalUrl(url);
+  if (!allowedUrl) return;
+
   if (isNativePlatform()) {
     try {
       await Browser.open({
-        url,
+        url: allowedUrl.href,
         presentationStyle: "popover",
         toolbarColor: "#000000",
       });
       return;
     } catch (error) {
-      console.warn("Capacitor Browser failed, falling back to window.open", error);
+      if (import.meta.env.DEV) console.warn("Capacitor Browser failed", error);
     }
   }
 
   if (typeof window !== "undefined") {
-    window.open(url, target, "noopener,noreferrer");
+    window.open(allowedUrl.href, target, "noopener,noreferrer");
   }
 }
 
@@ -52,14 +56,8 @@ export function setupNativeListeners(onNavigate?: (path: string) => void): () =>
   });
 
   const appUrlPromise = App.addListener("appUrlOpen", (data) => {
-    try {
-      const url = new URL(data.url);
-      const path = url.pathname + url.search + url.hash;
-      if (path) onNavigate?.(path);
-    } catch {
-      const slug = data.url.split("://")[1];
-      if (slug) onNavigate?.(`/${slug.replace(/^\/+/, "")}`);
-    }
+    const path = getAppLinkPath(data.url);
+    if (path !== null) onNavigate?.(path);
   });
 
   return () => {

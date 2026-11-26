@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { PageShell } from "@/components/page-shell";
 
 const IMAGES = {
-  fun: "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69df15a14b3d271b460b1166_TS%20VibeImages-01-1.jpg",
-  multisport:
-    "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69d87f286b08255899dc1d9a_TS%20VibeImages-03.webp",
-  gather:
-    "https://cdn.prod.website-files.com/69ce6ac1f2e984905187f960/69df1581096927fea86ddcee_TS%20VibeImages-02-1.jpg",
+  fun: "/media/slice-golf.jpg",
+  multisport: "/media/slice-multisport.webp",
+  gather: "/media/slice-gather.jpg",
 };
+
+const shareImage = new URL(IMAGES.fun, "https://thesliceworthington.vercel.app").href;
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -27,8 +27,8 @@ export const Route = createFileRoute("/about")({
           "Approachable Golf in Worthington, Ohio: simulator golf, great pizza and a laid-back vibe. Opening Fall 2026.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: IMAGES.fun },
-      { name: "twitter:image", content: IMAGES.fun },
+      { property: "og:image", content: shareImage },
+      { name: "twitter:image", content: shareImage },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
@@ -105,7 +105,7 @@ function About() {
   const visibleTestimonials = [
     testimonials[testimonialIndex],
     testimonials[(testimonialIndex + 1) % testimonials.length],
-  ];
+  ].filter((testimonial) => testimonial !== undefined);
 
   return (
     <PageShell wide>

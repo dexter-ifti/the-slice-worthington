@@ -37,7 +37,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
-  console.error(error);
+  if (import.meta.env.DEV) console.error(error);
   const router = useRouter();
 
   return (
@@ -90,12 +90,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap",
-      },
     ],
   }),
   shellComponent: RootShell,
@@ -104,10 +98,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Both Capacitor origins serve the bundled app. Inline scripts bootstrap TanStack hydration.
+const nativeSources = "'self' capacitor://localhost https://localhost";
+const nativeContentSecurityPolicy = [
+  `default-src ${nativeSources}`,
+  `script-src ${nativeSources} 'unsafe-inline'`,
+  `style-src ${nativeSources} 'unsafe-inline'`,
+  `img-src ${nativeSources} data:`,
+  "object-src 'none'",
+  "frame-src 'none'",
+  "worker-src 'none'",
+  "base-uri 'none'",
+  "form-action 'none'",
+].join("; ");
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        {import.meta.env.MODE === "native" && (
+          <meta httpEquiv="Content-Security-Policy" content={nativeContentSecurityPolicy} />
+        )}
         <HeadContent />
       </head>
       <body>
