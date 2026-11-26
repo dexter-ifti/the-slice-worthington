@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def uploadStoreFile = System.getenv('ANDROID_KEYSTORE_PATH') ?: project.findProperty('SLICE_UPLOAD_STORE_FILE')
+
 android {
     namespace = "com.thesliceworthington.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,19 +18,25 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    signingConfigs {
-        release {
-            storeFile file('release-key.jks')
-            storePassword 'slice123'
-            keyAlias 'slicekey'
-            keyPassword 'slice123'
+    if (uploadStoreFile) {
+        signingConfigs {
+            release {
+                storeFile file(uploadStoreFile)
+                storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: project.findProperty('SLICE_UPLOAD_STORE_PASSWORD')
+                keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: project.findProperty('SLICE_UPLOAD_KEY_ALIAS')
+                keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: project.findProperty('SLICE_UPLOAD_KEY_PASSWORD')
+            }
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            if (uploadStoreFile) {
+                signingConfig signingConfigs.release
+            }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     applicationVariants.all { variant ->

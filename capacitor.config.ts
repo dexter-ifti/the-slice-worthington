@@ -4,6 +4,12 @@ const config: CapacitorConfig = {
   appId: "com.thesliceworthington.app",
   appName: "The Slice",
   webDir: ".output/public",
+  android: {
+    webContentsDebuggingEnabled: false,
+  },
+  ios: {
+    webContentsDebuggingEnabled: false,
+  },
   server: {
     androidScheme: "https",
   },

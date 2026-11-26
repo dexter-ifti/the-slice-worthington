@@ -2,8 +2,7 @@ name: iOS Simulator Preview
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -14,41 +13,28 @@ jobs:
   build-ios-simulator:
     name: Build iOS Simulator app
     runs-on: macos-26
-    env:
-      APPETIZE_API_TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
-
+    timeout-minutes: 25
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          node-version: 22
+          persist-credentials: false
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: ">=22.22.0 <23"
           cache: npm
 
-      - name: Install JavaScript dependencies
-        run: npm ci
-
-      - name: Build web application
-        run: npm run build
-
-      - name: Generate iOS Capacitor project
+      - name: Install dependencies and sync the iOS app
         run: |
-          if [ ! -d ios ]; then
-            npx cap add ios --packagemanager SPM
-          fi
-          npm run cap:assets:ios
-          npx cap sync ios
+          npm ci --no-audit
+          npm run cap:sync:ios
 
       - name: Build iOS Simulator app
+        shell: bash
         run: |
           set -euo pipefail
-          ios_project=$(find ios -maxdepth 3 -name 'App.xcodeproj' -print -quit)
-          test -n "$ios_project"
-
           xcodebuild \
-            -project "$ios_project" \
+            -project ios/App/App.xcodeproj \
             -scheme App \
             -sdk iphonesimulator \
             -configuration Debug \
@@ -56,20 +42,33 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
-          app_path=$(find build/ios -type d -path '*Debug-iphonesimulator/App.app' -print -quit)
-          test -n "$app_path"
-          ditto -c -k --sequesterRsrc --keepParent "$app_path" ios-simulator.zip
+          app=build/ios/Build/Products/Debug-iphonesimulator/App.app
+          test -f "$app/PrivacyInfo.xcprivacy"
+          ditto -c -k --sequesterRsrc --keepParent "$app" ios-simulator.zip
 
       - name: Upload Simulator build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: the-slice-ios-simulator
           path: ios-simulator.zip
           if-no-files-found: error
 
+  publish-preview:
+    name: Update Appetize preview
+    needs: build-ios-simulator
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: the-slice-ios-simulator
+
       - name: Upload to Appetize
-        if: env.APPETIZE_API_TOKEN != ''
-        uses: appetizeio/github-action-appetize@v1.1.0
+        if: env.APPETIZE_API_TOKEN != '' && vars.APPETIZE_PUBLIC_KEY != ''
+        uses: appetizeio/github-action-appetize@2a2c772c74955925c1a7575fea8e4d58056f547d # v1.1.0
+        env:
+          APPETIZE_API_TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
         with:
           apiToken: ${{ env.APPETIZE_API_TOKEN }}
           publicKey: ${{ vars.APPETIZE_PUBLIC_KEY }}

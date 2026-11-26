@@ -15,12 +15,11 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "cap:build": "npm run build && cap copy android",
-    "cap:sync": "npm run build && cap sync android",
+    "cap:build": "npm run build -- --mode native && cap copy android",
+    "cap:sync": "npm run build -- --mode native && cap sync android",
     "cap:open:android": "cap open android",
-    "cap:sync:ios": "npm run build && cap sync ios",
-    "cap:open:ios": "cap open ios",
-    "cap:assets:ios": "capacitor-assets generate --ios --assetPath assets --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#ffffff' --splashBackgroundColor '#000000' --splashBackgroundColorDark '#000000'"
+    "cap:sync:ios": "npm run build -- --mode native && cap sync ios",
+    "cap:open:ios": "cap open ios"
   },
   "overrides": {
     "seroval": "^1.8.2"
