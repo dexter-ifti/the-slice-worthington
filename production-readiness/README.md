@@ -36,7 +36,7 @@
 
 | # | Action | Pri | Effort | Doc ref |
 |---|---|---|---|---|
-| 1 | **Rotate Android signing:** new upload keystore, remove the hardcoded `slice123` passwords (`android/app/build.gradle:19-26`), enrol in Play App Signing, keep secrets in GitHub Environments and an org vault | 🔴 Critical | 2–3 h | 03 S-01, 04 E1.2–E1.3 |
+| 1 | **Rotate Android signing:** new upload keystore, remove the hardcoded `[redacted]` passwords (`android/app/build.gradle:19-26`), enrol in Play App Signing, keep secrets in GitHub Environments and an org vault | 🔴 Critical | 2–3 h | 03 S-01, 04 E1.2–E1.3 |
 | 2 | **Start accounts now** (long lead time): D-U-N-S, Apple Developer **Organisation**, Google Play **Organisation** (avoids the 14-day/12-tester rule), all owned by The Slice's legal entity. Move the GitHub repo from a personal account to an org. | 🔴 Critical | 1–30 days elapsed | 02 Phase 0, 06 §1 |
 | 3 | **Clear Apple 4.2:** build the launch features: Visit/hours with open-now, tap-to-call, native directions, menu, parties inquiry, offline state, app-info/legal screen (+ push or Wallet if possible) | 🔴 Critical | 16–24 h | 05 §1, 04 E6 |
 | 4 | **Commit and configure `ios/`** (iPhone-only, portrait, `PrivacyInfo.xcprivacy`, `ITSAppUsesNonExemptEncryption=NO`, signing) instead of generating it in CI | 🔴 Critical | 4–6 h | 04 E2.1–E2.2 |

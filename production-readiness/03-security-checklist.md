@@ -1,8 +1,8 @@
 # 03 — Security Checklist
 
-> Scope: web app (TanStack Start on Vercel), Capacitor Android app (`android/`), Capacitor iOS app (generated in CI), CI/CD (`.github/workflows/`).
+> Scope: web app (TanStack Start on Vercel), Capacitor Android app (`android/`), Capacitor iOS app (`ios/`), CI/CD (`.github/workflows/`).
 > Mapped to **OWASP Top 10 (2021)** (`A0x`) and **OWASP MASVS v2** (`MASVS-STORAGE/CRYPTO/AUTH/NETWORK/PLATFORM/CODE/RESILIENCE/PRIVACY`).
-> Priority: 🔴 **Critical** · 🟠 **High** · 🟡 **Medium** · 🟢 **Low**. A ticked box `[x]` means **already satisfied in the repo today**.
+> Priority: 🔴 **Critical** · 🟠 **High** · 🟡 **Medium** · 🟢 **Low**. A ticked box `[x]` marks a control supplied by the current repository or hosting platform.
 
 ### Threat-model context
 
@@ -16,11 +16,23 @@ That's why the most severe findings below concern signing and the supply chain, 
 
 ---
 
+## Remediation status
+
+The finding descriptions below record the original repository review. The current code removes the public debug APK and hardcoded signing configuration, builds a signed Play bundle from the GitHub production environment, and includes its checksum and SBOM in the workflow artifact. It also adds the web and native security controls, the checked-in iOS project, and the CI and dependency controls described below.
+
+The release owner still needs to rotate the upload key and register its certificate, configure Play App Signing and internal testing, and set up the protected GitHub environments and branch rules for the release repository. Organization ownership, console access and 2FA are account settings. The old credentials and APK may still exist in Git history. The Android release workflow requires fresh credentials, and the old key should be treated as compromised. [Release setup](../README.md#android-release-signing)
+
+Preview and staging builds set `X-Robots-Tag: noindex`, including on custom staging domains. Vercel also sets it automatically on standard preview URLs. Confirm the production response headers after deploying, and submit the custom hostname for HSTS preload if the domain owner wants browser preload coverage. [Vercel response headers](https://vercel.com/docs/headers/response-headers)
+
+The app validates incoming paths for the intended production hostname. Enable verified platform link associations when deep linking is launched. Review the privacy disclosures, SDK privacy report, export declaration and signing for the first iOS store release. Sentry and its data-scrubbing rules apply if telemetry is enabled.
+
+---
+
 ## 1. Findings from the repo (fix list)
 
 | ID | Pri | Finding | File / line | OWASP / MASVS | Suggested fix |
 |---|---|---|---|---|---|
-| S-01 | 🔴 | **Keystore passwords hardcoded and pushed to git:** `storePassword 'slice123'`, `keyPassword 'slice123'`, alias `slicekey` | `android/app/build.gradle:19-26` | A02, A05 · MASVS-CODE | ① Generate a **new** upload keystore (never reuse this one). ② Read credentials from env/`~/.gradle/gradle.properties` (snippet below). ③ Enrol in **Play App Signing** so Google holds the app-signing key. ④ Store the keystore base64 plus passwords as GitHub **Environment** secrets (prod environment with required reviewers). ⑤ Optionally purge from history with `git filter-repo`. Rotation is the real fix, because history is already pushed. |
+| S-01 | 🔴 | **Keystore passwords hardcoded and pushed to git:** `storePassword '[redacted]'`, `keyPassword '[redacted]'`, alias `slicekey` | `android/app/build.gradle:19-26` | A02, A05 · MASVS-CODE | ① Generate a **new** upload keystore (never reuse this one). ② Read credentials from env/`~/.gradle/gradle.properties` (snippet below). ③ Enrol in **Play App Signing** so Google holds the app-signing key. ④ Store the keystore base64 plus passwords as GitHub **Environment** secrets (prod environment with required reviewers). ⑤ Optionally purge from history with `git filter-repo`. Rotation is the real fix, because history is already pushed. |
 | S-02 | 🔴 | **Debug-signed, debuggable APK publicly distributed** from `main` via the README (`README.md:6,15`). Any debug-keystore holder can sign a "compatible" update, and `android:debuggable=true` allows `run-as` data access and JDWP attach. | `.github/workflows/android-apk.yml:37-39,55-62`, `apk/The-Slice-v1.0.0.apk` | MASVS-RESILIENCE, MASVS-CODE | Stop publishing debug APKs. Distribute via Play internal testing. Remove the `apk/` dir and README links once Play internal testing exists. If sideloading is still needed, publish **release-signed** APKs as GitHub Release assets with SHA-256 checksums. |
 | S-03 | 🟠 | CI workflow has `permissions: contents: write` and **pushes directly to `main`**. Actions are pinned by mutable tags (`@v6`, `@v4`, third-party `appetizeio/github-action-appetize@v1.1.0`). | `android-apk.yml:6-7,59-62`, `ios-simulator.yml:72` | A08 (software & data integrity) | Use `contents: read` by default. Never let CI commit binaries. **Pin all actions to full commit SHAs** (Renovate can keep them current). Enable branch protection (required reviews and status checks) on `main`. |
 | S-04 | 🟠 | No Content-Security-Policy or security headers on the web deployment | `vercel.json` (no `headers`) | A05 | Add headers (snippet below): CSP, `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `frame-ancestors 'none'`. For Capacitor, set a CSP `<meta>` in the shell (`__root.tsx` head) that allows `capacitor://localhost` / `https://localhost`. |
@@ -53,10 +65,10 @@ That's why the most severe findings below concern signing and the supply chain, 
 - [ ] 🔴 Enrol in Play App Signing (mandatory for new apps using AAB).
 - [ ] 🟠 iOS signing: App Store Connect API key (`.p8`) for CI, distribution cert via fastlane `match` (encrypted git or Google Cloud Storage) or Xcode Cloud-managed signing.
 - [ ] 🟠 All CI secrets in **GitHub Environments** (`staging`, `production`) with required reviewers on `production`.
-- [ ] 🟡 Add **gitleaks** (or GitHub secret scanning + push protection) to CI and pre-commit.
+- [x] 🟡 Add **gitleaks** (or GitHub secret scanning + push protection) to CI and pre-commit.
 - [x] 🟢 `.gitignore` excludes `android/app/release-key.jks`, `.dev.vars`, `*.local` (`.gitignore:17,21,35`).
-- [ ] 🟢 Add `*.jks`, `*.keystore`, `*.p12`, `*.p8`, `*.mobileprovision`, `google-services.json` (if push is added), `GoogleService-Info.plist`, `DOCS_RON/` to `.gitignore`.
-- [ ] 🟢 Rule: anything prefixed `VITE_` is **public** (bundled into JS). Only DSNs and public keys go there.
+- [x] 🟢 Add `*.jks`, `*.keystore`, `*.p12`, `*.p8`, `*.mobileprovision`, `google-services.json` (if push is added), `GoogleService-Info.plist`, `DOCS_RON/` to `.gitignore`.
+- [x] 🟢 Rule: anything prefixed `VITE_` is **public** (bundled into JS). Only DSNs and public keys go there.
 
 ### 2.3 API security (A01, A04, A10)
 - [x] 🟢 No first-party API. No server functions.
@@ -65,27 +77,27 @@ That's why the most severe findings below concern signing and the supply chain, 
 
 ### 2.4 Input validation and output encoding (A03)
 - [x] 🟢 No user input exists in the app (no forms). Contact goes to the external site. React escapes output by default. There's no `dangerouslySetInnerHTML` in app code (`src/components/ui/chart.tsx` uses it but is unused, so delete it under C-8).
-- [ ] 🟡 S-08/S-09: validate deep-link paths and external URLs against allowlists.
+- [x] 🟡 S-08/S-09: validate deep-link paths and external URLs against allowlists.
 
 ### 2.5 Data encryption in transit (MASVS-NETWORK)
 - [x] 🟢 All URLs in `src/lib/links.ts` are `https://`. Android uses `androidScheme: "https"` (`capacitor.config.ts:7-9`).
 - [ ] 🟠 HSTS with `includeSubDomains; preload` on `app.thesliceworthington.com`.
-- [ ] 🟡 Android: add `res/xml/network_security_config.xml` with `cleartextTrafficPermitted="false"` (the default for API 28+, but make it explicit) and reference it in the manifest.
-- [ ] 🟡 iOS: confirm there are no ATS exceptions in `Info.plist`.
+- [x] 🟡 Android: add `res/xml/network_security_config.xml` with `cleartextTrafficPermitted="false"` (the default for API 28+, but make it explicit) and reference it in the manifest.
+- [x] 🟡 iOS: confirm there are no ATS exceptions in `Info.plist`.
 - [ ] 🟢 **Certificate pinning: not recommended for this app.** There is no first-party API to pin. Pinning third-party hosts (Whoosh, Webflow, Google) would break on their certificate rotations and risk a full outage. Revisit only if a first-party API with sensitive data is added, and then pin to the **SPKI of your own intermediate/leaf with a backup pin**.
 
 ### 2.6 Data encryption at rest / secure storage on device (MASVS-STORAGE, MASVS-CRYPTO)
 - [x] 🟢 No sensitive data at rest (one UI flag in `localStorage`).
-- [ ] 🟠 S-05 `allowBackup` hardening.
+- [x] 🟠 S-05 `allowBackup` hardening.
 - [ ] 🟡 Policy for the future: tokens and PII go in Keychain (`kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`) / Android Keystore-backed EncryptedSharedPreferences. Never `localStorage` or `@capacitor/preferences`.
 - [ ] 🟢 Make sure WebView caches don't hold sensitive pages. They don't today, because Whoosh opens in the system browser, not the WebView.
 
 ### 2.7 Platform interaction and permissions (MASVS-PLATFORM)
-- [x] 🟢 Android requests only `INTERNET` (`AndroidManifest.xml:40`). This is ideal.
-- [ ] 🟡 S-07 Remove or narrow the unused `FileProvider`.
-- [ ] 🟡 Exported components: only `MainActivity` is exported (it must be, as the launcher). `launchMode="singleTask"` is fine.
+- [x] 🟢 `INTERNET` is the only Android system permission requested. AndroidX adds an app-scoped signature permission for its internal receivers.
+- [x] 🟡 S-07 Remove or narrow the unused `FileProvider`.
+- [x] 🟡 `MainActivity` is the only exported Android component. The AndroidX profiling receiver is removed from the merged manifest.
 - [ ] 🟡 When adding push (`POST_NOTIFICATIONS`, Android 13+) or location ("near me"), request the permission **in context**, with a pre-prompt and a purpose string (`NSLocationWhenInUseUsageDescription`). Don't request at launch.
-- [ ] 🟢 WebView: confirm `WebView.setWebContentsDebuggingEnabled` is **off** in release (Capacitor disables it by default for release builds unless `webContentsDebuggingEnabled: true`). Verify that `capacitor.config.ts` never sets it.
+- [x] 🟢 WebView: confirm `WebView.setWebContentsDebuggingEnabled` is **off** in release (Capacitor disables it by default for release builds unless `webContentsDebuggingEnabled: true`). Verify that `capacitor.config.ts` never sets it.
 - [ ] 🟢 Screenshots/backgrounding: no sensitive screens, so `FLAG_SECURE` isn't needed.
 
 ### 2.8 Logging of sensitive data (A09, MASVS-STORAGE)
@@ -95,11 +107,11 @@ That's why the most severe findings below concern signing and the supply chain, 
 
 ### 2.9 Code quality and supply chain (A06, A08, MASVS-CODE)
 - [ ] 🟠 S-03 Pin Actions to SHAs. Use `contents: read`. Add branch protection.
-- [ ] 🟠 S-12 Audit gate plus Renovate/Dependabot (grouped weekly, `minimumReleaseAge: "3 days"`).
-- [ ] 🟡 One lockfile (`package-lock.json`). Use `npm ci` in CI (already done).
+- [x] 🟠 S-12 Audit gate plus Renovate/Dependabot (grouped weekly, `minimumReleaseAge: "3 days"`).
+- [x] 🟡 One lockfile (`package-lock.json`). Use `npm ci` in CI (already done).
 - [ ] 🟡 Generate an SBOM per release (`npm sbom --sbom-format cyclonedx`), attached to the GitHub Release.
 - [ ] 🟡 Enable GitHub **CodeQL** (JavaScript/TypeScript, Java/Kotlin) on PRs.
-- [ ] 🟢 Remove unused packages (C-8). Every removed dependency is attack surface eliminated.
+- [x] 🟢 Remove unused packages (C-8). Every removed dependency is attack surface eliminated.
 
 ### 2.10 Resilience (MASVS-RESILIENCE)
 - [ ] 🟡 Ship **release** builds only (`debuggable=false`).
@@ -107,14 +119,14 @@ That's why the most severe findings below concern signing and the supply chain, 
 - [ ] 🟢 Play Integrity / App Attest: not needed until a first-party API exists.
 
 ### 2.11 Web-specific (OWASP Top 10)
-- [ ] 🟠 S-04 Security headers and CSP.
-- [ ] 🟡 `robots.txt` allows everything (fine for prod). Make sure **staging/preview** send `X-Robots-Tag: noindex`.
+- [x] 🟠 S-04 Security headers and CSP.
+- [x] 🟡 Vercel preview and staging builds set `X-Robots-Tag: noindex`.
 - [ ] 🟡 Error pages (`src/lib/error-page.ts`) leak no stack traces to the client. ✔ Verified: the generic message only.
 - [ ] 🟢 SRI isn't feasible for Google Fonts CSS. Self-hosting (S-10) removes the need.
 
 ### 2.12 Privacy (MASVS-PRIVACY)
-- [ ] 🟠 Privacy policy covering: no account data; third parties (Whoosh, Google Fonts/Maps, Webflow CDN, Instagram, Sentry/analytics once added); contact; data-rights requests.
-- [ ] 🟠 iOS `PrivacyInfo.xcprivacy` declaring required-reason APIs (e.g., `NSPrivacyAccessedAPICategoryUserDefaults` used by Capacitor/plugins) and the data types collected (crash data once Sentry is added).
+- [x] 🟠 Privacy policy covers local storage, Vercel, external booking and navigation services, and how to make a data-rights request. Update it if telemetry is added.
+- [x] 🟠 iOS `PrivacyInfo.xcprivacy` is included in the app target. Update the declarations when adding SDKs, required-reason APIs or telemetry.
 - [ ] 🟡 No ATT prompt needed **as long as no cross-app tracking SDKs (ads, Meta SDK) are added**. Keep analytics first-party and non-tracking.
 - [ ] 🟡 Data minimisation for analytics: no user IDs, no IP storage, opt-out toggle in a settings/about screen.
 

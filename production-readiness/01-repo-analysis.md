@@ -110,7 +110,7 @@ Priority key: **P0** = blocks store submission or a safe release · **P1** = fix
 
 | # | Priority | Finding | Evidence | Fix |
 |---|---|---|---|---|
-| C-1 | **P0** | Release keystore passwords committed in plaintext (`slice123`) and pushed to `origin` | `android/app/build.gradle:19-26` | Treat as compromised. Generate a new upload key, load credentials from env/Gradle properties, and enrol in Play App Signing. See `03-security-checklist.md` S-01. |
+| C-1 | **P0** | Release keystore passwords committed in plaintext (`[redacted]`) and pushed to `origin` | `android/app/build.gradle:19-26` | Treat as compromised. Generate a new upload key, load credentials from env/Gradle properties, and enrol in Play App Signing. See `03-security-checklist.md` S-01. |
 | C-2 | **P0** | iOS project is not in source control. It is regenerated on every CI run with `npx cap add ios`, so Info.plist, PrivacyInfo, signing, capabilities and the device family can't be configured durably | `.github/workflows/ios-simulator.yml:36-42` | Run `npx cap add ios` once, commit `ios/`, and configure it. |
 | C-3 | **P0** | The distributed Android build is a **debug** APK (debuggable, debug-signed), and CI commits the binary to `main` | `android-apk.yml:37-39, 55-62`, `apk/The-Slice-v1.0.0.apk` (6 MB), `.gitignore:36-37` | Release pipeline builds a signed **AAB** and uploads to Play. Remove `apk/` from the repo and use GitHub Releases or Play internal testing. |
 | C-4 | **P0** | `versionCode 1` / `versionName "1.0.0"` are hardcoded, and CI always names output `v1.0.0` | `android/app/build.gradle:10-11`, `android-apk.yml:46` | Derive from tag and CI run number (see `06-store-deployment-guide.md` §3). |

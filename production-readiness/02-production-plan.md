@@ -91,7 +91,7 @@ Phase 4                                                 ████ GA + hyperc
 | R1 | **Apple rejects under Guideline 4.2 / 4.2.2** ("primarily marketing materials… or a collection of links"). Today the app is 6 static pages plus outbound links. | **High** | High (weeks of delay) | Ship the "must-have" native value set before first submission (hours, call, maps, menu, events inquiry, offline, ideally push or a Wallet pass). Write strong review notes. Be ready to appeal. See `06-store-deployment-guide.md` §8. |
 | R2 | Google Play "Minimum functionality" / webview-wrapper policy | Medium | Medium | Same mitigations as R1. |
 | R3 | Account verification delays (D-U-N-S, Play identity) | Medium | High | Start Phase 0 on day 1. |
-| R4 | Compromised keystore credentials (`slice123` in git history) | Already happened | Medium (no production key exists yet) | New upload key **before** the first Play upload. Never reuse this one. |
+| R4 | Compromised keystore credentials (`[redacted]` in git history) | Already happened | Medium (no production key exists yet) | New upload key **before** the first Play upload. Never reuse this one. |
 | R5 | Whoosh changes URLs, has outages, or blocks in-app browsers | Low–Med | High (core flow) | Synthetic monitor on `WHOOSH_BOOKING_URL`. Remote-config the URL (feature roadmap). Fallback copy with phone number. |
 | R6 | Webflow CDN asset URLs change (marketing site redesign) | Medium | Medium | Bundle images. Monitor the video URL. |
 | R7 | Inaccurate or illustrative testimonials, stale "Opening Fall 2026" copy | High (present) | Medium (FTC / store metadata accuracy) | Owner content sign-off is a launch gate. |
